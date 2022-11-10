@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:guard_pass/ui/pages/Sign_up/sign_up.dart';
 import 'package:guard_pass/ui/widgets/social_media.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginState createState() => _LoginState();
 }
 
@@ -126,7 +128,10 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const SignUp()));
+                  },
                   child: const Text(
                     'Sign Up',
                     style: TextStyle(
