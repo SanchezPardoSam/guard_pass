@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guard_pass/ui/pages/Sign_up/sign_up.dart';
+import 'package:guard_pass/ui/pages/home/home.dart';
 import 'package:guard_pass/ui/widgets/social_media.dart';
 
 class Login extends StatefulWidget {
@@ -98,7 +99,10 @@ class _LoginState extends State<Login> {
               ),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) =>  Home()));
+              },
               style: ButtonStyle(
                 padding: MaterialStateProperty.all(const EdgeInsets.only(
                   left: 36,
@@ -129,8 +133,10 @@ class _LoginState extends State<Login> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const SignUp()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SignUp()));
                   },
                   child: const Text(
                     'Sign Up',
