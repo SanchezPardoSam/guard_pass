@@ -1,4 +1,7 @@
+// ignore_for_file: avoid_print, duplicate_ignore
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:guard_pass/ui/pages/Sign_up/sign_up.dart';
 import 'package:guard_pass/ui/pages/home/home.dart';
 import 'package:guard_pass/ui/widgets/social_media.dart';
@@ -12,6 +15,15 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  @override
+  void initState() {
+    // ignore: todo
+    // TODO: implement initState
+    super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.bottom]);
+  }
+
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -99,9 +111,11 @@ class _LoginState extends State<Login> {
               ),
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () {        
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) =>  Home()));
+                  context,
+                  MaterialPageRoute(builder: (context) => const Home()),
+                );
               },
               style: ButtonStyle(
                 padding: MaterialStateProperty.all(const EdgeInsets.only(

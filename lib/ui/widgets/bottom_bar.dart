@@ -26,7 +26,7 @@ class _BottomBarState extends State<BottomBar> {
           label: 'Inicio',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Ionicons.people),
+          icon: Icon(Ionicons.person_sharp),
           label: 'Perfil',
         ),
       ],
@@ -37,6 +37,7 @@ class _BottomBarState extends State<BottomBar> {
       iconSize: 25,
       selectedFontSize: 14,
       unselectedFontSize: 12,
+      
     );
   }
 }
