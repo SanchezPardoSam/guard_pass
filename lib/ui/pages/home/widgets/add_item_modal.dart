@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:clipboard/clipboard.dart';
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
@@ -11,6 +14,7 @@ class AddItem extends StatefulWidget {
 
 class _AddItemState extends State<AddItem> {
   TextEditingController passEncrypt = TextEditingController();
+
 
   String encrypt = "Encrypt";
   final List<String> itemsEncrypt = ['Encrypt', 'MD5', 'SHA256', 'SHA512'];
@@ -25,6 +29,7 @@ class _AddItemState extends State<AddItem> {
     'Facebook',
     'Twitter'
   ];
+
 
   @override
   Widget build(BuildContext context) {
