@@ -245,7 +245,7 @@ class _AddItemState extends State<AddItem> {
                                 Item(
                                   email: email,
                                   logo: social,
-                                  passwordHash: '',
+                                  passwordHash: passEncrypt.text,
                                   reference: referencia,
                                   typeHash: encrypt,
                                   length: length,

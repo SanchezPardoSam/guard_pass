@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:guard_pass/domain/blocs/item/item_bloc.dart';
 import 'package:guard_pass/ui/pages/Login/login.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:path_provider/path_provider.dart';
@@ -15,6 +17,7 @@ class Perfil extends StatefulWidget {
 }
 
 class _PerfilState extends State<Perfil> {
+  ItemState stateExport = ItemState([]);
   Future<Directory?>? _externalDocumentsDirectory;
   @override
   void initState() {
@@ -32,6 +35,7 @@ class _PerfilState extends State<Perfil> {
   }
 
   void createExcel(String directory) {
+    print('State: ${stateExport.listItem.length}');
     final excel = Excel.createExcel();
     final sheet = excel[excel.getDefaultSheet()!];
     sheet
@@ -49,16 +53,16 @@ class _PerfilState extends State<Perfil> {
           CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: 0),
         )
         .value = 'Password';
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < stateExport.listItem.length; i++) {
       sheet
           .cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: i + 1))
-          .value = 'Google';
+          .value = stateExport.listItem[i].logo;
       sheet
           .cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: i + 1))
-          .value = 'rieszein@gmail.com';
+          .value = stateExport.listItem[i].email;
       sheet
           .cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: i + 1))
-          .value = 'password';
+          .value = stateExport.listItem[i].passwordHash;
     }
 
     final fileBytes = excel.save();
@@ -89,57 +93,62 @@ class _PerfilState extends State<Perfil> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          ClipOval(
-            child: Material(
-              color: const Color(0xFFA5A3A3),
-              child: InkWell(
-                onTap: () {},
-                child: const SizedBox(
-                  width: 200,
-                  height: 200,
-                  child: Icon(
-                    Ionicons.person_sharp,
-                    size: 150,
-                    color: Colors.white,
+    return BlocBuilder<ItemBloc, ItemState>(
+      builder: (context, state) {
+        return Center(
+          child: Column(
+            children: [
+              ClipOval(
+                child: Material(
+                  color: const Color(0xFFA5A3A3),
+                  child: InkWell(
+                    onTap: () {},
+                    child: const SizedBox(
+                      width: 200,
+                      height: 200,
+                      child: Icon(
+                        Ionicons.person_sharp,
+                        size: 150,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Login()));
-            },
-            child: const Text(
-              'Cerrar sessión',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
-                color: Colors.red,
+              TextButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Login()));
+                },
+                child: const Text(
+                  'Cerrar sessión',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    color: Colors.red,
+                  ),
+                ),
               ),
-            ),
-          ),
-          ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                const Color.fromARGB(255, 39, 136, 42),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    const Color.fromARGB(255, 39, 136, 42),
+                  ),
+                ),
+                onPressed: () =>
+                    {_requestAppDocumentsDirectory(), stateExport = state},
+                child: const Text(
+                  'Exportar contraseñas',
+                ),
               ),
-            ),
-            onPressed: _requestAppDocumentsDirectory,
-            child: const Text(
-              'Exportar contraseñas',
-            ),
+              FutureBuilder<Directory?>(
+                future: _externalDocumentsDirectory,
+                builder: _buildDirectory,
+              ),
+            ],
           ),
-          FutureBuilder<Directory?>(
-            future: _externalDocumentsDirectory,
-            builder: _buildDirectory,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
